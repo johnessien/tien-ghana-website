@@ -26,8 +26,8 @@ Allow about 30 minutes the first time. You do not need to install anything on yo
 Have these ready:
 
 1. Access to the GitHub account that holds the **tien-ghana-website** repository.
-2. A username, email and **strong password** for the website's admin account. The password must be at least
-   8 characters and not a common word or all numbers, e.g. `Kente-Loom-2026!`. Keep it somewhere safe.
+2. *(On hold: see "Admin access" below.)* Later, a username, email and **strong password** for the website's
+   admin account. The password must be at least 8 characters and not a common word or all numbers.
 
 ### Step 1: Create the database on Neon
 
@@ -57,9 +57,9 @@ Have these ready:
    | Setting | What to enter |
    |---|---|
    | `DATABASE_URL` | The Neon connection string from Step 1 |
-   | `DJANGO_SUPERUSER_USERNAME` | The admin username you chose, e.g. `tienadmin` |
-   | `DJANGO_SUPERUSER_EMAIL` | The admin email address |
-   | `DJANGO_SUPERUSER_PASSWORD` | The strong admin password |
+   | `DJANGO_SUPERUSER_USERNAME` | **Leave empty for now** (admin access is on hold) |
+   | `DJANGO_SUPERUSER_EMAIL` | **Leave empty for now** |
+   | `DJANGO_SUPERUSER_PASSWORD` | **Leave empty for now** |
    | `PAYSTACK_SECRET_KEY` | **Leave empty for now** (see Step 5) |
    | `PAYSTACK_PUBLIC_KEY` | **Leave empty for now** |
 
@@ -74,12 +74,29 @@ Have these ready:
 
 1. Open the web address. The home page with the 3D animation should load. (The very first visit after a quiet
    period can take up to a minute: see "Things to know" below.)
-2. Go to **https://tien-ghana.onrender.com/secretariat-admin/** and log in with the admin username and password.
-3. In the admin, open **Institutions**: you should see 40 institutions. Open **Programs**: you should see 9.
-4. Go to the **Join** page and submit a test registration, then find it in the admin under **Student
-   registrations**. Delete the test entry afterwards.
+2. Open the **Network** page: the campus list and 3D map pins should show 20 campuses, 4 marked **Pilot**.
+3. *(Once admin access is set up)* log in at **/secretariat-admin/**, open **Institutions** (40) and **Programs** (9).
+4. Go to the **Join** page and submit a test registration. You should see **Application received**. (It is saved in
+   the database; you will be able to see and delete it once admin access is set up.)
 5. Open the **Donate** page: it should say **"Online giving opens soon"** with a contact form. That is expected
    until Paystack is connected.
+
+### Admin access (on hold, decided 8 November 2026)
+
+The site is deployed for **display and showcasing first**, without an admin account. Everything public works:
+all pages, the 3D experience, and the join, contact, partner and subscribe forms. Submissions are saved safely in
+the Neon database.
+
+**To do later, once the IT person is on board:**
+1. Decide who gets admin access (you, the IT person) and give each person **their own account**. Never share one login.
+2. Create the first account: in Render, then **Environment**, fill in `DJANGO_SUPERUSER_USERNAME`,
+   `DJANGO_SUPERUSER_EMAIL` and `DJANGO_SUPERUSER_PASSWORD`, save, then **Manual Deploy**, then **Deploy latest commit**.
+   The build creates the account once.
+3. Log in at **/secretariat-admin/** and add the second person under **Users** (tick *Staff status*; tick
+   *Superuser status* only for people who need full control).
+4. Afterwards you may clear the three `DJANGO_SUPERUSER_*` values in Render; the account stays.
+5. Review the submissions collected while admin access was on hold (Student registrations, Applications,
+   Contact messages, Partner inquiries, Subscribers) and reply to anyone waiting.
 
 ### Step 4: Use the tienghana.org domain (optional)
 

@@ -2,6 +2,7 @@
 
 | Item | Where it goes | Why it matters |
 |---|---|---|
+| **Admin accounts (on hold)**: set up once the IT person joins | HANDOVER.md, "Admin access" | No one can view or reply to form submissions until an admin exists |
 | Leadership names, roles, photos, bios | Admin → People (group: Leadership) | /about/leadership/ and the "Meet the team" band stay hidden until at least one exists |
 | Advisory Board members | Admin → People (group: Advisory Board) | Same; hidden until filled |
 | Real photos (campuses, events, students) | Event/Article covers, People photos | The site currently uses no stock photography; the 3D scene carries the visuals |
