@@ -1,0 +1,6 @@
+{# Renders one Django bound field in the glass form style, with inline, screen-reader-linked errors. #}
+<div class="field{% if field.errors %} has-error{% endif %}"{% if wrap_id %} id="{{ wrap_id }}"{% endif %}>
+  <label for="{{ field.id_for_label }}">{{ label|default:field.label }}{% if not field.field.required and not hide_optional %} <small>optional</small>{% endif %}{% if field.help_text %} <small class="help">{{ field.help_text }}</small>{% endif %}</label>
+  {{ field }}
+  {% if field.errors %}<span class="err" id="{{ field.html_name }}-err">{{ field.errors|join:" " }}</span>{% endif %}
+</div>

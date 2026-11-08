@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block meta %}{% include "partials/meta.html" with title="Donate | TIEN Ghana" description="About GHS 460 puts one student through intensive training: a bootcamp, a real project and a pitch. Give securely by card, bank or mobile money." %}{% endblock %}
+{% block body_attrs %} data-cost-per-student="{{ cost_per_student }}"{% endblock %}
+{% block content %}
+<div class="wrap netlayout">
+  <div>
+    <div class="eyebrow">Support TIEN</div>
+    <h1 class="split" style="font-size:clamp(32px,4.2vw,58px)">Give a student their first real chance</h1>
+    <p class="lead" style="font-size:17px">At full scale, about <b class="y">GHS {{ cost_per_student }}</b> puts one student through intensive training: a bootcamp, a real project and a pitch.</p>
+    {% if giving_closed %}
+    <div class="glass" style="padding:28px;margin-top:28px">
+      <span class="tag p">Coming soon</span>
+      <h2 style="font-size:26px;margin-top:14px">Online giving opens soon</h2>
+      <p class="muted" style="margin-top:8px">We're setting up secure card and mobile money payments. In the meantime, tell us how you'd like to support TIEN and the team will get back to you with ways to give.</p>
+      <form method="post" action="{% url 'tien:contact' %}" novalidate style="margin-top:22px">
+        {% csrf_token %}<input type="hidden" name="next" value="{% url 'tien:donate' %}">
+        {% with form=contact_form %}
+        <div class="row2">{% include "partials/field.html" with field=form.name %}{% include "partials/field.html" with field=form.email %}</div>
+        {% include "partials/field.html" with field=form.topic %}
+        {% include "partials/field.html" with field=form.message label="How would you like to help?" %}
+        {% include "partials/protect.html" %}
+        {% endwith %}
+        <button class="btn btn-y" type="submit">Send to the TIEN team <span class="arrow" aria-hidden="true">&rarr;</span></button>
+      </form>
+    </div>
+    {% else %}
+    <form class="glass" style="padding:28px;margin-top:28px" id="donateForm" method="post" action="{% url 'tien:donate' %}" novalidate>
+      {% csrf_token %}
+      <fieldset style="border:0;display:grid;gap:10px">
+        <legend class="sr-only">Amount</legend>
+        <div class="amt">
+          {% for r in form.preset %}
+          <label class="opt" for="{{ r.id_for_label }}">{{ r.tag }}<b>{{ r.choice_label }}</b>{% if r.data.value == "460" %}<span>trains one student</span>{% elif r.data.value == "4600" %}<span>trains ten</span>{% endif %}</label>
+          {% endfor %}
+        </div>
+        {% if form.preset.errors %}<span class="err">{{ form.preset.errors|join:" " }}</span>{% endif %}
+      </fieldset>
+      {% include "partials/field.html" with field=form.custom wrap_id="customWrap" hide_optional=True %}
+      <div class="impact" id="impact" aria-live="polite">A gift of <b>GHS {{ cost_per_student }}</b> puts <b>1 student</b> through intensive training.</div>
+      {% include "partials/field.html" with field=form.designation %}
+      {% include "partials/field.html" with field=form.campus wrap_id="campusPick" hide_optional=True %}
+      {% include "partials/field.html" with field=form.email %}
+      {% include "partials/protect.html" %}
+      <button class="btn btn-y" type="submit" id="donateBtn">Continue to secure payment <span class="arrow" aria-hidden="true">&rarr;</span></button>
+      <p class="notice">Secure checkout by Paystack: card, bank or mobile money. You'll get a receipt by email.</p>
+    </form>
+    {% endif %}
+  </div>
+  <div></div>
+</div>
+{% endblock %}

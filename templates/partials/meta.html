@@ -1,0 +1,10 @@
+{% with t=title|default:"TIEN Ghana | Tertiary Innovation and Excellence Network" d=description|default:"TIEN Ghana connects students across universities, technical universities and colleges to develop ideas, drive innovation and contribute to national development." %}
+<title>{{ t }}</title>
+<meta name="description" content="{{ d }}">
+<link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="TIEN Ghana">
+<meta property="og:locale" content="en_GB">
+<meta property="og:title" content="{{ t }}">
+<meta property="og:description" content="{{ d }}">
+{% endwith %}

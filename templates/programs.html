@@ -1,0 +1,27 @@
+{% extends "base.html" %}{% load tien %}
+{% block meta %}{% include "partials/meta.html" with title="Programs | TIEN Ghana" description="Innovation challenges, fellowship, leadership forums, showcases and national collaboration projects for Ghana's tertiary students." %}{% endblock %}
+{% block content %}
+<section class="pagehero"><div class="wrap"><div>
+  <div class="eyebrow">Programs</div>
+  <h1 class="split">Build it. Lead it. Show it.</h1>
+  <p class="lead">{{ items|length|numword }} programs, one rule: every program ends in something real, whether a prototype, a pitch, a placement or a published idea.</p>
+</div></div></section>
+<section style="padding-bottom:60px"><div class="wrap grid" style="gap:22px">
+  {% for p in items %}
+  <article class="glass card reveal" style="padding:36px">
+    <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap">
+      <div class="ico">{% icon p.icon %}</div>
+      <div style="flex:1;min-width:260px"><div class="small">Program {{ forloop.counter|stringformat:"02d" }}</div><h2 style="margin-top:6px;font-size:28px"><a href="{{ p.get_absolute_url }}" style="text-decoration:none">{{ p.title }}</a></h2><p style="font-size:18px">{{ p.summary }}</p></div>
+      <a class="btn btn-o btn-s" href="{% url 'tien:join' %}?role={{ p.join_role }}&amp;interest={{ p.title|urlencode }}">Apply<span class="sr-only"> for {{ p.title }}</span> <span class="arrow" aria-hidden="true">&rarr;</span></a>
+    </div>
+    <div class="detail"><div><b>Who it is for</b>{{ p.who }}</div><div><b>Format</b>{{ p.format }}</div><div><b>What you get</b>{{ p.benefits }}</div></div>
+  </article>
+  {% endfor %}
+</div></section>
+<section class="block"><div class="wrap">
+  <div class="eyebrow reveal">Sector tracks</div>
+  <h2 class="reveal">Real problems from the industries that hire</h2>
+  <p class="lead reveal">Each track pairs chapters with an employer who sets one real problem every semester.</p>
+  <ul class="chips reveal" style="margin-top:30px;list-style:none">{% for t in tracks %}<li class="chip" style="display:inline-flex;align-items:center;cursor:default">{{ t }}</li>{% endfor %}</ul>
+</div></section>
+{% endblock %}

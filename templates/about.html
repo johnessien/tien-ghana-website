@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block meta %}{% include "partials/meta.html" with title="About | TIEN Ghana" description="TIEN Ghana's vision, mission, core values and how the network is organised: student-led and professionally run." %}{% endblock %}
+{% block content %}
+<section class="pagehero"><div class="wrap"><div>
+  <div class="eyebrow">About TIEN Ghana</div>
+  <h1 class="split">No talented student should graduate without a first chance.</h1>
+  <p class="lead">The Tertiary Innovation and Excellence Network is a national initiative to grow a generation of tertiary students committed to innovation, leadership and excellence.</p>
+</div></div></section>
+<section class="block" style="padding-top:20px" id="vision"><div class="wrap grid g2">
+  <div class="glass card reveal"><div class="eyebrow">Vision</div><p style="margin:0;font-size:26px;font-weight:600;color:#fff;line-height:1.25">A thriving ecosystem of tertiary students who lead innovation and drive sustainable development in Ghana and across Africa.</p></div>
+  <div class="glass card reveal"><div class="eyebrow">Mission</div><p style="margin:0;font-size:26px;font-weight:600;color:#fff;line-height:1.25">To empower tertiary students through structured platforms, mentorship and real opportunities to build solutions, lead, and move from campus into work or enterprise.</p></div>
+</div></section>
+<section class="block" id="values"><div class="wrap split2">
+  <div><div class="eyebrow reveal">Core values</div><h2 class="reveal">What every program is judged against</h2></div>
+  <ol class="list reveal">{% for v in values %}<li><span class="tick" aria-hidden="true">{{ forloop.counter }}</span><div><b>{{ v.0 }}</b><span>{{ v.1 }}</span></div></li>{% endfor %}</ol>
+</div></section>
+<section class="block" id="governance"><div class="wrap">
+  <div class="eyebrow reveal">How we are organised</div>
+  <h2 class="reveal">Student-led, professionally run</h2>
+  <div class="grid g4" style="margin-top:46px">{% for g in governance %}<div class="glass card reveal"><h3 style="margin-top:0">{{ g.0 }}</h3><p>{{ g.1 }}</p></div>{% endfor %}</div>
+  {% if has_people %}
+  <div class="glass band reveal"><div><h3>Leadership and Advisory Board</h3><p class="muted" style="margin-top:6px">Meet the founders, leadership team and advisers behind TIEN Ghana.</p></div><a class="btn btn-o" href="{% url 'tien:leadership' %}">Meet the team <span class="arrow" aria-hidden="true">&rarr;</span></a></div>
+  {% endif %}
+</div></section>
+<section class="block"><div class="wrap">
+  <div class="eyebrow reveal">Where we are</div>
+  <h2 class="reveal">Offices in Accra, Kumasi and Tamale</h2>
+  <p class="lead reveal">{{ stats.campuses }} campuses across {{ stats.regions }} of Ghana's 16 regions in the proposed chapter rollout, starting with {{ stats.pilots }} pilot chapters.</p>
+</div></section>
+{% endblock %}

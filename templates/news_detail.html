@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block meta %}{% include "partials/meta.html" with title=article.title|add:" | TIEN Ghana" description=article.excerpt %}{% endblock %}
+{% block content %}
+<article>
+  <section class="pagehero" style="min-height:50vh"><div class="wrap"><div>
+    <a class="eyebrow" href="{% url 'tien:news' %}" style="text-decoration:none">&larr; {{ article.get_category_display }}</a>
+    <h1 class="split" style="font-size:clamp(36px,5vw,64px)">{{ article.title }}</h1>
+    <p class="meta"><time datetime="{{ article.published_at|date:'c' }}">{{ article.published_at|date:"j F Y" }}</time></p>
+  </div></div></section>
+  <section class="page-body"><div class="wrap"><div class="prose">
+    {% if article.cover %}<img src="{{ article.cover.url }}" alt="" style="width:100%;border-radius:22px" loading="lazy">{% endif %}
+    {{ article.body|linebreaks }}
+  </div></div></section>
+</article>
+{% endblock %}

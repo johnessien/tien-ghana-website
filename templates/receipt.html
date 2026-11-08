@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block meta %}{% include "partials/meta.html" with title="Thank you | TIEN Ghana" %}<meta name="robots" content="noindex">{% endblock %}
+{% block content %}
+<div class="wrap netlayout">
+  <div>
+    <div class="glass" style="padding:36px">
+      {% if payment.status == "success" %}
+      <div class="done" style="text-align:left;padding:0"><div class="big" style="margin:0 0 20px" aria-hidden="true">&#10003;</div></div>
+      <h1 style="font-size:clamp(30px,3.6vw,46px)">Thank you for your gift.</h1>
+      <p class="lead" style="font-size:17px">Your donation of <b class="y">GHS {{ payment.amount_cedis|floatformat:2 }}</b> to <b>{{ designation }}{% if payment.institution %}: {{ payment.institution }}{% endif %}</b> was received.
+        {% if students_trained %}That puts <b class="y">{{ students_trained }} student{{ students_trained|pluralize }}</b> through intensive training.{% endif %}</p>
+      {% elif payment.status == "failed" %}
+      <h1 style="font-size:clamp(30px,3.6vw,46px)">The payment didn't go through.</h1>
+      <p class="lead" style="font-size:17px">You have not been charged. You can try again with another card or mobile money wallet.</p>
+      {% else %}
+      <h1 style="font-size:clamp(30px,3.6vw,46px)">We're confirming your payment.</h1>
+      <p class="lead" style="font-size:17px">Paystack hasn't confirmed it yet. You'll get an email receipt as soon as it does; there's no need to pay again.</p>
+      {% endif %}
+      <div class="review" style="margin-top:26px"><div><span>Reference</span><b>{{ payment.reference }}</b></div><div><span>Receipt sent to</span><b>{{ payment.email }}</b></div></div>
+      <div class="cta-row"><a class="btn btn-y" href="{% url 'tien:home' %}">Back to home</a>{% if payment.status == "failed" %}<a class="btn btn-o" href="{% url 'tien:donate' %}">Try again</a>{% endif %}</div>
+    </div>
+  </div>
+  <div></div>
+</div>
+{% endblock %}

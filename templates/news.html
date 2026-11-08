@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block meta %}{% include "partials/meta.html" with title="News and events | TIEN Ghana" description="Tertiary Times: student innovation stories, announcements and events from Ghana's campuses." %}{% endblock %}
+{% block content %}
+<section class="pagehero" style="min-height:55vh"><div class="wrap"><div>
+  <div class="eyebrow">News and events</div>
+  <h1 class="split">Stories from Ghana's campuses.</h1>
+  <p class="lead">Tertiary Times is TIEN's student media platform: innovation, opportunities and the people behind them.</p>
+</div></div></section>
+<section class="page-body">
+  {% if events %}
+  <div class="wrap" style="margin-bottom:40px">
+    <h2 class="reveal" style="font-size:clamp(26px,3vw,40px)">Coming up</h2>
+    <div class="grid g3" style="margin-top:24px">{% for e in events %}
+      <article class="glass card reveal"><span class="tag p" style="align-self:flex-start">{{ e.starts_at|date:"j M Y" }}</span><h3><a href="{% url 'tien:event_detail' e.slug %}" style="text-decoration:none">{{ e.title }}</a></h3><p>{{ e.description|truncatewords:28 }}</p><p class="meta">{% if e.is_online %}Online{% else %}{{ e.venue }}{% endif %}</p></article>
+    {% endfor %}</div>
+  </div>
+  {% endif %}
+  <div class="wrap">
+    {% if articles or active %}
+    <nav class="chips" aria-label="Filter stories" style="margin-bottom:24px">
+      <a class="chip" href="{% url 'tien:news' %}" style="display:inline-flex;align-items:center;text-decoration:none"{% if not active %} aria-current="page"{% endif %}>All</a>
+      {% for k, label in categories %}<a class="chip" href="?category={{ k }}" style="display:inline-flex;align-items:center;text-decoration:none"{% if active == k %} aria-current="page"{% endif %}>{{ label }}</a>{% endfor %}
+    </nav>
+    <div class="grid g3">
+      {% for a in articles %}
+      <article class="glass card reveal"><span class="tag" style="align-self:flex-start">{{ a.get_category_display }}</span><h3><a href="{% url 'tien:news_detail' a.slug %}" style="text-decoration:none">{{ a.title }}</a></h3><p>{{ a.excerpt }}</p><p class="meta"><time datetime="{{ a.published_at|date:'c' }}">{{ a.published_at|date:"j F Y" }}</time></p></article>
+      {% empty %}
+      <div class="glass empty">No stories in this category yet.</div>
+      {% endfor %}
+    </div>
+    {% elif not events %}
+    <div class="glass empty reveal"><h2 style="font-size:26px">The first stories are on their way</h2><p>Tertiary Times launches with the network. Subscribe below and we'll send you the first edition, plus challenges and openings as they go live.</p></div>
+    {% endif %}
+  </div>
+  <div class="wrap" id="subscribe">
+    <form class="glass band" method="post" action="{% url 'tien:subscribe' %}" novalidate style="display:flex;align-items:flex-start">
+      {% csrf_token %}<input type="hidden" name="next" value="{% url 'tien:news' %}#subscribe">
+      {% with form=subscribe_form %}
+      <div style="flex:1;min-width:260px"><h2 style="font-size:22px">Never miss an opportunity</h2><p class="muted" style="margin-top:6px">Get launch news, challenges and openings in your inbox.</p></div>
+      <div style="flex:1;min-width:280px;display:grid;gap:14px">
+        <div style="display:flex;gap:10px">
+          <label class="sr-only" for="{{ form.email.id_for_label }}">Email address</label>{{ form.email }}
+          <button class="btn btn-y" type="submit">Subscribe</button>
+        </div>
+        {% if form.email.errors %}<span class="err" id="email-err">{{ form.email.errors|join:" " }}</span>{% endif %}
+        {% include "partials/protect.html" %}
+      </div>
+      {% endwith %}
+    </form>
+  </div>
+</section>
+{% endblock %}

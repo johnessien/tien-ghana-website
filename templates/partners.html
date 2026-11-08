@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block meta %}{% include "partials/meta.html" with title="Partners | TIEN Ghana" description="Back the whole network, one industry or one campus, and see exactly what your support delivered every quarter." %}{% endblock %}
+{% block content %}
+<section class="pagehero"><div class="wrap"><div>
+  <div class="eyebrow">Partners</div>
+  <h1 class="split">Fund results, not logos.</h1>
+  <p class="lead">Back the whole network, one industry or one campus, and see exactly what your support delivered every quarter.</p>
+  <div class="cta-row"><a class="btn btn-y" href="#enquire">Request the partnership pack <span class="arrow" aria-hidden="true">&rarr;</span></a></div>
+</div></div></section>
+<section class="block" style="padding-top:20px"><div class="wrap">
+  <div class="eyebrow reveal">Ways to partner</div>
+  <h2 class="reveal">Four ways in</h2>
+  <div class="grid g4" style="margin-top:46px">
+    {% for t in tiers %}
+    <div class="glass card reveal"{% if t.2 %} style="border-color:rgba(254,184,0,.6);background:rgba(254,184,0,.08)"{% endif %}>
+      {% if t.2 %}<span class="tag p" style="align-self:flex-start">Flagship</span>{% endif %}
+      <h3{% if not t.2 %} style="margin-top:0"{% endif %}>{{ t.0 }}</h3><p>{{ t.1 }}</p>
+      <a class="go" href="#enquire">Enquire<span class="sr-only"> about {{ t.0 }}</span> <span class="arrow" aria-hidden="true">&rarr;</span></a>
+    </div>
+    {% endfor %}
+  </div>
+</div></section>
+<section class="block"><div class="wrap split2">
+  <div><div class="eyebrow reveal">Beyond sponsorship</div><h2 class="reveal">Talent and innovation services for industry</h2><p class="lead reveal">For companies that need skilled graduates or fresh solutions, TIEN can do more than host your brand.</p></div>
+  <ol class="list reveal">{% for s in services %}<li><span class="tick" aria-hidden="true">{{ forloop.counter }}</span><div><b>{{ s.0 }}</b><span>{{ s.1 }}</span></div></li>{% endfor %}</ol>
+</div></section>
+<section class="block"><div class="wrap split2">
+  <div><div class="eyebrow reveal">Accountability</div><h2 class="reveal">Partners see what their money did</h2></div>
+  <ul class="list reveal">{% for a in accountability %}<li><span class="tick" aria-hidden="true">&#10003;</span><div><b>{{ a.0 }}</b><span>{{ a.1 }}</span></div></li>{% endfor %}</ul>
+</div></section>
+<section class="block" id="enquire"><div class="wrap split2">
+  <div><div class="eyebrow reveal">Partner enquiry</div><h2 class="reveal">Let's talk</h2><p class="lead reveal">Tell us about your goals and we will send the partnership pack within two working days.</p></div>
+  <form class="glass reveal" style="padding:32px" method="post" action="{% url 'tien:partners' %}#enquire" novalidate>
+    {% csrf_token %}
+    <div class="row2">{% include "partials/field.html" with field=form.contact_name %}{% include "partials/field.html" with field=form.organization %}</div>
+    <div class="row2">{% include "partials/field.html" with field=form.email %}{% include "partials/field.html" with field=form.phone %}</div>
+    {% include "partials/field.html" with field=form.interest %}
+    {% include "partials/field.html" with field=form.message %}
+    {% include "partials/protect.html" %}
+    <button class="btn btn-y" type="submit">Send enquiry <span class="arrow" aria-hidden="true">&rarr;</span></button>
+  </form>
+</div></section>
+{% endblock %}

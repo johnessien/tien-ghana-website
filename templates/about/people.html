@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block meta %}{% include "partials/meta.html" with title=group|add:" | TIEN Ghana" %}{% endblock %}
+{% block content %}
+<section class="pagehero" style="min-height:50vh"><div class="wrap"><div>
+  <div class="eyebrow">About TIEN Ghana</div>
+  <h1 class="split">{{ group }}</h1>
+</div></div></section>
+<section class="page-body people"><div class="wrap grid g3">
+  {% for p in people %}
+  <article class="glass card reveal">
+    {% if p.photo %}<img src="{{ p.photo.url }}" alt="" width="96" height="96" loading="lazy">{% endif %}
+    <h3>{{ p.name }}</h3><p class="y" style="color:var(--yellow)">{{ p.role }}</p>
+    {% if p.bio %}<p>{{ p.bio }}</p>{% endif %}
+    {% if p.linkedin %}<a class="go" href="{{ p.linkedin }}" rel="noopener">LinkedIn <span class="arrow" aria-hidden="true">&rarr;</span></a>{% endif %}
+  </article>
+  {% endfor %}
+</div></section>
+{% endblock %}

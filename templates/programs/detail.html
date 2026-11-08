@@ -1,0 +1,18 @@
+{% extends "base.html" %}{% load tien %}
+{% block meta %}{% include "partials/meta.html" with title=item.title|add:" | TIEN Ghana" description=item.summary %}{% endblock %}
+{% block content %}
+<section class="pagehero" style="min-height:60vh"><div class="wrap"><div>
+  <a class="eyebrow" href="{% if item.kind == 'program' %}{% url 'tien:programs' %}{% else %}{% url 'tien:opportunities' %}{% endif %}" style="text-decoration:none">&larr; All {{ item.get_kind_display|lower }}s</a>
+  <h1 class="split">{{ item.title }}</h1>
+  <p class="lead">{{ item.summary }}</p>
+  <div class="cta-row">{% if item.applications_open %}<a class="btn btn-y" href="{% url 'tien:join' %}?role={{ item.join_role }}&amp;interest={{ item.title|urlencode }}">Apply now <span class="arrow" aria-hidden="true">&rarr;</span></a>{% endif %}<a class="btn btn-o" href="{% url 'tien:contact' %}">Ask a question</a></div>
+</div></div></section>
+<section class="page-body"><div class="wrap">
+  <div class="glass card reveal" style="padding:36px">
+    <div class="ico">{% icon item.icon %}</div>
+    <div class="detail">{% if item.who %}<div><b>Who it is for</b>{{ item.who }}</div>{% endif %}{% if item.format %}<div><b>Format</b>{{ item.format }}</div>{% endif %}{% if item.benefits %}<div><b>What you get</b>{{ item.benefits }}</div>{% endif %}</div>
+    {% if item.deadline %}<p class="meta">Applications close {{ item.deadline|date:"j F Y" }}</p>{% endif %}
+    {% if item.body %}<div class="prose" style="margin-top:20px">{{ item.body|linebreaks }}</div>{% endif %}
+  </div>
+</div></section>
+{% endblock %}

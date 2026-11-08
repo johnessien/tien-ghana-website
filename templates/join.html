@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block meta %}{% include "partials/meta.html" with title="Join the network | TIEN Ghana" description="Join TIEN Ghana as a student, institution, mentor or campus ambassador." %}{% endblock %}
+{% block content %}
+<div class="wrap netlayout">
+  <div>
+    <div class="eyebrow">Join the network</div>
+    <h1 class="split" style="font-size:clamp(32px,4.2vw,58px)">Start your TIEN journey</h1>
+    <div class="glass" style="padding:28px;margin-top:26px">
+    {% if done_role %}
+      <div class="done" role="status">
+        <div class="big" aria-hidden="true">&#10003;</div>
+        <h2 style="font-size:26px">Application received</h2>
+        <p class="muted" style="margin:10px auto 22px;max-width:380px">Thank you for joining as {{ done_label|default:"a member"|lower }}. The TIEN team will be in touch within five working days.</p>
+        <a class="btn btn-y" href="{% url 'tien:programs' %}">Explore programs <span class="arrow" aria-hidden="true">&rarr;</span></a>
+      </div>
+    {% else %}
+      <div class="steps" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      <p class="sr-only" id="stepLabel" aria-live="polite"></p>
+      <form id="joinForm" method="post" action="{% url 'tien:join' %}" novalidate data-start-step="{{ start_step|default:0 }}" data-has-errors="{% if form.errors %}1{% else %}0{% endif %}">
+        {% csrf_token %}
+        {% if form.errors %}<div class="form-errors" role="alert">Please check the highlighted fields{% if form.errors.role %}: {{ form.errors.role|join:" " }}{% endif %}.</div>{% endif %}
+
+        <fieldset class="fstep" data-s="0" style="border:0">
+          <legend data-step-title tabindex="-1" style="font-weight:500;margin-bottom:14px">I am joining as</legend>
+          <div class="seg optgrid">
+            {% for r in roles %}
+            <label class="opt" for="role-{{ r.0 }}"><input type="radio" name="role" value="{{ r.0 }}" id="role-{{ r.0 }}"{% if selected_role == r.0 %} checked{% endif %}><b>{{ r.1 }}</b><span>{{ r.2 }}</span></label>
+            {% endfor %}
+          </div>
+        </fieldset>
+
+        <div class="fstep" data-s="1">
+          <p class="sr-only" data-step-title tabindex="-1">Your details</p>
+          <div class="row2">{% include "partials/field.html" with field=form.full_name hide_optional=True %}{% include "partials/field.html" with field=form.email hide_optional=True %}</div>
+          {% include "partials/field.html" with field=form.phone hide_optional=True %}
+
+          <div class="role-only" data-roles="student ambassador institution">
+            <p class="role-note">Students, ambassadors and institutions</p>
+            <div class="field">
+              <label for="id_institution">Institution <small class="help">or pick it on the map</small></label>
+              <select name="institution" id="id_institution"{% if form.institution.errors %} aria-invalid="true" aria-describedby="institution-err"{% endif %}>
+                <option value="">Select your institution</option>
+                {% for i in institutions %}<option value="{{ i.pk }}"{% if selected_inst == i.pk|stringformat:"s" %} selected{% endif %}>{{ i.name }}</option>{% endfor %}
+                <option value="other"{% if selected_inst == "other" %} selected{% endif %}>My institution is not listed</option>
+              </select>
+              {% if form.institution.errors %}<span class="err" id="institution-err">{{ form.institution.errors|join:" " }}</span>{% endif %}
+            </div>
+            {% include "partials/field.html" with field=form.institution_other wrap_id="instOther" label="Institution name (if not listed)" hide_optional=True %}
+            {% include "partials/field.html" with field=form.institution_type hide_optional=True %}
+          </div>
+          <div class="role-only" data-roles="student">
+            <p class="role-note">Students</p>
+            <div class="row2">{% include "partials/field.html" with field=form.program_of_study %}{% include "partials/field.html" with field=form.year_of_study %}</div>
+            {% include "partials/field.html" with field=form.area_of_interest %}
+          </div>
+          <div class="role-only" data-roles="institution">
+            <p class="role-note">Institutions</p>
+            <div class="row2">{% include "partials/field.html" with field=form.contact_role %}{% include "partials/field.html" with field=form.student_numbers %}</div>
+            {% include "partials/field.html" with field=form.region hide_optional=True %}
+          </div>
+          <div class="role-only" data-roles="mentor">
+            <p class="role-note">Mentors</p>
+            <div class="row2">{% include "partials/field.html" with field=form.organisation hide_optional=True %}{% include "partials/field.html" with field=form.expertise hide_optional=True %}</div>
+            {% include "partials/field.html" with field=form.years_experience hide_optional=True %}
+          </div>
+          <div class="role-only" data-roles="ambassador">
+            <p class="role-note">Ambassadors</p>
+            {% include "partials/field.html" with field=form.motivation hide_optional=True %}
+          </div>
+        </div>
+
+        <fieldset class="fstep" data-s="2" style="border:0">
+          <legend data-step-title tabindex="-1" style="font-weight:500;margin-bottom:14px">What are you interested in? <small class="muted" style="font-weight:300">Choose any</small></legend>
+          <div class="chips" style="margin-top:0">
+            {% for t in interests %}<label class="chip" for="int-{{ forloop.counter }}"><input type="checkbox" name="interests" value="{{ t }}" id="int-{{ forloop.counter }}"{% if t in selected_interests %} checked{% endif %}>{{ t }}</label>{% endfor %}
+          </div>
+        </fieldset>
+
+        <div class="fstep" data-s="3">
+          <p data-step-title tabindex="-1" style="font-weight:500" class="review-wrap">Check your details</p>
+          <div class="review-wrap"><div class="review" id="review"></div></div>
+          {% include "partials/protect.html" %}
+        </div>
+
+        <p class="err" id="stepErr" aria-live="polite"></p>
+        <div class="stepnav"><button type="button" class="btn btn-o btn-s" id="back">Back</button><button type="button" class="btn btn-y btn-s" id="next">Continue <span class="arrow" aria-hidden="true">&rarr;</span></button></div>
+        <button class="btn btn-y nojs-submit" type="submit">Submit application <span class="arrow" aria-hidden="true">&rarr;</span></button>
+      </form>
+    {% endif %}
+    </div>
+    <p class="small" style="margin-top:14px">Students and ambassadors can also pick their campus on the map.</p>
+  </div>
+  <div></div>
+</div>
+{% endblock %}

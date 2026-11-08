@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block meta %}{% include "partials/meta.html" with title=event.title|add:" | TIEN Ghana" description=event.description|truncatewords:30 %}{% endblock %}
+{% block content %}
+<section class="pagehero" style="min-height:50vh"><div class="wrap"><div>
+  <a class="eyebrow" href="{% url 'tien:news' %}" style="text-decoration:none">&larr; News and events</a>
+  <h1 class="split" style="font-size:clamp(36px,5vw,64px)">{{ event.title }}</h1>
+  <p class="lead"><time datetime="{{ event.starts_at|date:'c' }}">{{ event.starts_at|date:"l j F Y, g:i a" }}</time> · {% if event.is_online %}Online{% else %}{{ event.venue }}{% endif %}</p>
+</div></div></section>
+<section class="page-body"><div class="wrap"><div class="prose">{{ event.description|linebreaks }}</div></div></section>
+{% endblock %}

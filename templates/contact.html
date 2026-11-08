@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block meta %}{% include "partials/meta.html" with title="Contact | TIEN Ghana" description="Questions, partnerships, media or campus visits: get in touch with the TIEN Ghana team." %}{% endblock %}
+{% block content %}
+<section class="pagehero"><div class="wrap split2">
+  <div>
+    <div class="eyebrow">Contact</div>
+    <h1 class="split">Let's build something together.</h1>
+    <p class="lead">Questions, partnerships, media or campus visits: we read every message.</p>
+    <ul class="list" style="margin-top:36px">
+      <li><span class="tick" aria-hidden="true">@</span><div><b>Email</b><span>{{ contact_email }}</span></div></li>
+      <li><span class="tick" aria-hidden="true">&#9673;</span><div><b>Offices</b><span>Accra, Kumasi and Tamale</span></div></li>
+      <li><span class="tick" aria-hidden="true">in</span><div><b>Social</b><span><a href="https://www.linkedin.com/company/tertiary-innovation-and-excellence-network-ghana/" rel="noopener">LinkedIn</a>, <a href="https://www.facebook.com/share/1LZhfyy1cV/" rel="noopener">Facebook</a>, and @tien_Ghana on Instagram and X</span></div></li>
+    </ul>
+  </div>
+  <form class="glass" style="padding:32px" method="post" action="{% url 'tien:contact' %}" novalidate>
+    {% csrf_token %}
+    <h2 class="sr-only">Send us a message</h2>
+    <div class="row2">{% include "partials/field.html" with field=form.name %}{% include "partials/field.html" with field=form.email %}</div>
+    {% include "partials/field.html" with field=form.topic %}
+    {% include "partials/field.html" with field=form.message %}
+    {% include "partials/protect.html" %}
+    <button class="btn btn-y" type="submit">Send message <span class="arrow" aria-hidden="true">&rarr;</span></button>
+  </form>
+</div></section>
+{% endblock %}

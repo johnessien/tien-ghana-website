@@ -1,0 +1,93 @@
+"""Seed data used by the data migration.
+
+Institutions marked with a rollout wave come from the CAMPUSES array in the immersive
+front-end (coordinates copied exactly). The rest are best-estimate main-campus
+coordinates, to be confirmed. They sit in the database ready to be switched on in admin
+(is_member=True) when they join, and do not appear on the public map until then.
+"""
+
+# name, short, institution_type, map_category, region, city, lat, lon, rollout_wave
+INSTITUTIONS = [
+    # --- proposed rollout (from CAMPUSES; wave 0 = pilot) ---
+    ("University of Ghana", "UG", "university", "university", "greater_accra", "Legon, Accra", 5.65, -0.19, 0),
+    ("Kwame Nkrumah University of Science and Technology", "KNUST", "university", "university", "ashanti", "Kumasi", 6.67, -1.57, 0),
+    ("Accra Technical University", "ATU", "technical_university", "technical", "greater_accra", "Accra", 5.55, -0.21, 0),
+    ("University of Cape Coast", "UCC", "university", "university", "central", "Cape Coast", 5.11, -1.29, 0),
+    ("Kumasi Technical University", "KsTU", "technical_university", "technical", "ashanti", "Kumasi", 6.70, -1.63, 1),
+    ("University of Mines and Technology", "UMaT", "university", "specialist", "western", "Tarkwa", 5.30, -1.99, 1),
+    ("Takoradi Technical University", "TTU", "technical_university", "technical", "western", "Takoradi", 4.95, -1.76, 1),
+    ("University of Professional Studies, Accra", "UPSA", "university", "university", "greater_accra", "Accra", 5.66, -0.17, 1),
+    ("University for Development Studies", "UDS", "university", "university", "northern", "Tamale", 9.40, -0.85, 2),
+    ("University of Energy and Natural Resources", "UENR", "university", "specialist", "bono", "Sunyani", 7.34, -2.33, 2),
+    ("CK Tedam University of Technology and Applied Sciences", "CKT-UTAS", "university", "specialist", "upper_east", "Navrongo", 10.89, -1.09, 2),
+    ("Ho Technical University", "HTU", "technical_university", "technical", "volta", "Ho", 6.60, 0.47, 2),
+    ("Koforidua Technical University", "KTU", "technical_university", "technical", "eastern", "Koforidua", 6.09, -0.26, 3),
+    ("University of Education, Winneba", "UEW", "university", "education", "central", "Winneba", 5.35, -0.62, 3),
+    ("Simon Diedong Dombo University of Business and Integrated Development Studies", "SDD-UBIDS", "university", "university", "upper_west", "Wa", 10.06, -2.50, 3),
+    ("Bolgatanga Technical University", "BTU", "technical_university", "technical", "upper_east", "Bolgatanga", 10.79, -0.85, 3),
+    ("Sunyani Technical University", "STU", "technical_university", "technical", "bono", "Sunyani", 7.36, -2.30, 3),
+    ("Ashesi University", "Ashesi", "university", "university", "eastern", "Berekuso", 5.76, -0.22, 3),
+    ("University of Health and Allied Sciences", "UHAS", "university", "specialist", "volta", "Ho", 6.61, 0.50, 3),
+    ("Akatsi College of Education", "", "college_of_education", "education", "volta", "Akatsi", 6.12, 0.80, 3),
+    # --- other institutions from the live registration form (estimated coordinates) ---
+    ("Academic City University College", "", "university", "university", "greater_accra", "Haatso, Accra", 5.67, -0.20, None),
+    ("Akenten Appiah-Menka University of Skills Training and Entrepreneurial Development", "AAMUSTED", "university", "education", "ashanti", "Kumasi", 6.69, -1.65, None),
+    ("All Nations University", "ANU", "university", "university", "eastern", "Koforidua", 6.07, -0.25, None),
+    ("Cape Coast Technical University", "CCTU", "technical_university", "technical", "central", "Cape Coast", 5.12, -1.27, None),
+    ("Catholic University of Ghana", "CUG", "university", "university", "bono", "Fiapre, Sunyani", 7.35, -2.35, None),
+    ("Dr. Hilla Limann Technical University", "DHLTU", "technical_university", "technical", "upper_west", "Wa", 10.05, -2.49, None),
+    ("Ghana Communication Technology University", "GCTU", "university", "specialist", "greater_accra", "Tesano, Accra", 5.60, -0.23, None),
+    ("Ghana Institute of Journalism", "GIJ", "university", "university", "greater_accra", "Accra", 5.56, -0.20, None),
+    ("Ghana Institute of Management and Public Administration", "GIMPA", "university", "university", "greater_accra", "Achimota, Accra", 5.63, -0.22, None),
+    ("Ghana Technology University College", "GTUC", "university", "specialist", "greater_accra", "Accra", 5.61, -0.22, None),
+    ("Islamic University College, Ghana", "IUCG", "university", "university", "greater_accra", "East Legon, Accra", 5.64, -0.15, None),
+    ("Methodist University Ghana", "MUG", "university", "university", "greater_accra", "Dansoman, Accra", 5.55, -0.27, None),
+    ("Perez University College", "", "university", "university", "central", "Pomadze, Winneba", 5.39, -0.66, None),
+    ("Presbyterian University, Ghana", "PUG", "university", "university", "eastern", "Abetifi", 6.67, -0.75, None),
+    ("Regional Maritime University", "RMU", "university", "specialist", "greater_accra", "Nungua, Accra", 5.60, -0.08, None),
+    ("SDA College of Education, Asokore", "", "college_of_education", "education", "eastern", "Asokore, Koforidua", 6.10, -0.29, None),
+    ("Tamale Technical University", "TaTU", "technical_university", "technical", "northern", "Tamale", 9.41, -0.84, None),
+    ("University of Environment and Sustainable Development", "UESD", "university", "specialist", "eastern", "Somanya", 6.10, -0.01, None),
+    ("University of Media, Arts and Communication", "UniMAC", "university", "university", "greater_accra", "Accra", 5.57, -0.21, None),
+    ("Valley View University", "VVU", "university", "university", "greater_accra", "Oyibi", 5.80, -0.12, None),
+]
+
+# slug, kind, title, icon, summary, who, format, benefits, join_role, order
+PROGRAMS = [
+    ("innovation-challenges", "program", "Innovation Challenges", "bulb",
+     "Teams solve real problems set by employers and compete for funding, mentorship and incubation.",
+     "Student teams of 3 to 5, any campus", "One semester, with a national final",
+     "Prize funding, mentors and a shot at incubation", "student", 1),
+    ("innovation-fellowship", "program", "Innovation Fellowship", "star",
+     "A selective leadership fellowship pairing top students with industry mentors to lead campus initiatives.",
+     "Final and penultimate year students", "Nine months, cohort-based",
+     "A mentor, a leadership project and a network for life", "student", 2),
+    ("leadership-forums", "program", "Leadership and Excellence Forums", "chat",
+     "Conversations with leaders from industry and public life on growth, resilience and responsibility.",
+     "Open to all members", "Termly, on campus and online",
+     "Access to leaders and practical career insight", "student", 3),
+    ("student-showcase", "program", "Student Innovation Showcase", "flask",
+     "Demo days where student projects meet investors, employers and the media.",
+     "Teams with a working prototype", "Annual national showcase plus campus demo days",
+     "Visibility with investors, employers and media", "student", 4),
+    ("collaboration-projects", "program", "National Collaboration Projects", "hub",
+     "Cross-campus teams tackling shared national challenges in energy, health, agriculture and digital.",
+     "Students from two or more campuses", "Project-based, 3 to 6 months",
+     "Real impact and cross-campus friendships", "student", 5),
+    ("campus-ambassador", "opportunity", "Campus Ambassador", "mega",
+     "Lead TIEN on your campus and build the chapter from day one.",
+     "Students with leadership drive", "",
+     "Leadership experience, training and a seat in the national network", "ambassador", 1),
+    ("mentorship", "opportunity", "Mentorship Program", "mentor",
+     "Get matched with professionals and alumni who have walked the path, or become a mentor yourself.",
+     "Students, and professionals who want to give back", "",
+     "Regular guidance, feedback and introductions", "mentor", 2),
+    ("innovation-grants", "opportunity", "Innovation Grants", "coin",
+     "Seed funding for student teams with a tested idea and a plan.",
+     "Teams that have completed a TIEN challenge or showcase", "",
+     "Funding, mentors and incubation support", "student", 3),
+    ("internships", "opportunity", "Internships and Partnerships", "brief",
+     "Placements with partner employers across mining, energy, finance and technology.",
+     "Students who have completed TIEN training", "",
+     "Project-tested experience employers recognise", "student", 4),
+]

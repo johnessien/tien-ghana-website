@@ -1,0 +1,26 @@
+{% extends "base.html" %}{% load tien %}
+{% block meta %}{% include "partials/meta.html" with title="The network | TIEN Ghana" description="TIEN Ghana's campus chapters, from Navrongo to Takoradi: pilot chapters and the proposed rollout across Ghana's tertiary institutions." %}{% endblock %}
+{% block content %}
+<div class="wrap netlayout">
+  <div>
+    <div class="eyebrow">The network</div>
+    <h1 class="split" style="font-size:clamp(32px,4.2vw,58px)">From Navrongo to Takoradi</h1>
+    <p class="lead" style="font-size:17px">{{ stats.rollout|numword }} campuses in the proposed rollout, starting with {{ stats.pilots|numword|lower }} pilot chapters. Pick a campus to find it on the map.</p>
+    <div class="chips" id="netFilters" role="group" aria-label="Filter campuses">
+      {% for f in filters %}<button type="button" class="chip" data-f="{{ f.0 }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">{{ f.1 }}</button>{% endfor %}
+    </div>
+    <div class="campuslist" id="campusList" role="list">
+      {% for c in campuses %}
+      <button type="button" role="listitem" class="campus" data-id="{{ c.pk }}" data-type="{{ c.map_category }}" data-wave="{% if c.rollout_wave is None %}9{% else %}{{ c.rollout_wave }}{% endif %}" aria-pressed="false">
+        <div><b>{{ c.name }}</b><span>{{ c.city }}, {{ c.get_map_category_display }}</span></div>
+        <span class="tag{% if c.is_pilot %} p{% endif %}">{{ c.status_label }}</span>
+      </button>
+      {% empty %}
+      <p class="muted">Campus chapters will be listed here soon.</p>
+      {% endfor %}
+    </div>
+    <p class="small" style="margin-top:14px">Proposed chapter rollout, to be confirmed with each institution. Map positions are indicative.</p>
+  </div>
+  <div></div>
+</div>
+{% endblock %}

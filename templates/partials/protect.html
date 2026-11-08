@@ -1,0 +1,8 @@
+{# Honeypot (hidden from people and screen readers) + required privacy consent. Used by every form. #}
+<div class="hp" aria-hidden="true">{{ form.website.label_tag }}{{ form.website }}</div>
+<div class="field">
+  <label class="check" for="{{ form.consent_given.id_for_label }}">{{ form.consent_given }}<span>{{ form.consent_given.label }}</span></label>
+  {% if form.consent_given.errors %}<span class="err" id="{{ form.consent_given.html_name }}-err">{{ form.consent_given.errors|join:" " }}</span>{% endif %}
+</div>
+{% if form.non_field_errors %}<div class="form-errors" role="alert">{{ form.non_field_errors|join:" " }}</div>{% endif %}
+{% if form.website.errors %}<div class="form-errors" role="alert">We couldn't accept this submission. Please try again.</div>{% endif %}

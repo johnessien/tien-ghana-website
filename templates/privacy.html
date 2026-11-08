@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block meta %}{% include "partials/meta.html" with title="Privacy policy | TIEN Ghana" description="How TIEN Ghana collects, uses and protects personal data under Ghana's Data Protection Act, 2012 (Act 843)." %}{% endblock %}
+{% block content %}
+<section class="pagehero" style="min-height:45vh"><div class="wrap"><div>
+  <div class="eyebrow">Privacy policy</div>
+  <h1 class="split" style="font-size:clamp(36px,5vw,64px)">How we look after your data</h1>
+  <p class="lead">This policy explains what personal data TIEN Ghana collects through this website, why, and the rights you have under Ghana's Data Protection Act, 2012 (Act 843).</p>
+</div></div></section>
+<section class="page-body"><div class="wrap"><div class="prose">
+  <p class="meta">Last updated 8 November 2026</p>
+
+  <h2>Who we are</h2>
+  <p>The Tertiary Innovation and Excellence Network (TIEN) Ghana, based in Accra, is the data controller for personal data collected on this website. We will maintain our registration with the Data Protection Commission of Ghana as the Act requires. You can reach us about anything in this policy through our <a href="{% url 'tien:contact' %}">contact form</a> (choose “General question”) or by writing to {{ contact_email }}.</p>
+
+  <h2>What we collect and why</h2>
+  <ul>
+    <li><b>Joining the network</b> (students, institutions, mentors, ambassadors): your name, email, phone number, institution, course or role, and the programs you are interested in. We use these to process your application, place you in a campus chapter, match mentors, and contact you about TIEN programs.</li>
+    <li><b>Contact and partner enquiries</b>: your name, organisation, email, optional phone number and message, so we can reply.</li>
+    <li><b>Newsletter</b>: your email address, to send launch news, challenges and openings. Every email has a way to unsubscribe.</li>
+    <li><b>Donations</b>: your email, the amount and where you directed your gift. Payments are processed by Paystack; we never see or store your card or mobile money details.</li>
+  </ul>
+  <p>We only collect what each form needs. Optional fields are marked as optional.</p>
+
+  <h2>Our lawful basis</h2>
+  <p>We process your data with your consent, which you give by ticking the box on each form, and where it is needed to carry out what you asked us to do (for example, processing a donation or an application). You can withdraw consent at any time; this does not affect processing that already took place.</p>
+
+  <h2>Who we share it with</h2>
+  <ul>
+    <li><b>Partner institutions</b>: if you join through a campus chapter, your name and contact details are shared with that chapter's leadership and faculty adviser.</li>
+    <li><b>Mentors and employers</b>: only when you apply for mentorship, internships or a program that involves them, and only what they need.</li>
+    <li><b>Service providers</b> who process data for us under contract: Paystack (payments) and our hosting provider. Fonts and 3D graphics libraries are loaded from Google Fonts, cdnjs and jsDelivr, which receive your IP address when your browser requests them.</li>
+  </ul>
+  <p>We do not sell personal data. If a provider stores data outside Ghana, we use providers that give an adequate level of protection, as the Act requires.</p>
+
+  <h2>How long we keep it</h2>
+  <ul>
+    <li>Membership and application records: while you are an active member, and for two years after.</li>
+    <li>Contact and partner enquiries: up to two years after our last exchange.</li>
+    <li>Newsletter: until you unsubscribe.</li>
+    <li>Donation records: for as long as tax and accounting law requires.</li>
+  </ul>
+
+  <h2>Keeping it safe</h2>
+  <p>The site is served over HTTPS. Access to personal data is limited to TIEN staff and volunteers who need it, through a password-protected admin area. Forms are protected against automated spam.</p>
+
+  <h2>Your rights under Act 843</h2>
+  <ul>
+    <li>Ask whether we hold data about you and get a copy of it.</li>
+    <li>Ask us to correct data that is inaccurate, out of date or incomplete, or to delete data we should no longer hold.</li>
+    <li>Object to us processing your data, and stop us using it for direct marketing at any time.</li>
+    <li>Withdraw your consent.</li>
+    <li>Complain to the Data Protection Commission of Ghana if you think we have mishandled your data.</li>
+  </ul>
+  <p>To use any of these rights, contact us as described above. We will respond within 21 days.</p>
+
+  <h2>Cookies</h2>
+  <p>This site only sets the cookies it needs to work: a security cookie that protects forms (CSRF) and a session cookie used after you submit a form. We do not use advertising or analytics cookies.</p>
+
+  <h2>Changes</h2>
+  <p>We will update this page if our practices change, and show the date of the latest version at the top.</p>
+</div></div></section>
+{% endblock %}

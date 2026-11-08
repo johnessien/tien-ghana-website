@@ -1,0 +1,20 @@
+{% extends "base.html" %}{% load tien %}
+{% block meta %}{% include "partials/meta.html" with title="Opportunities | TIEN Ghana" description="Become a campus ambassador, find a mentor, apply for an innovation grant or land a placement with a TIEN partner employer." %}{% endblock %}
+{% block content %}
+<section class="pagehero"><div class="wrap"><div>
+  <div class="eyebrow">Opportunities</div>
+  <h1 class="split">Your next step starts here.</h1>
+  <p class="lead">Lead a chapter, find a mentor, fund your idea or land a placement with a partner employer.</p>
+</div></div></section>
+<section style="padding-bottom:120px"><div class="wrap grid g2">
+  {% for o in items %}
+  <article class="glass card reveal" style="padding:36px">
+    <div class="ico">{% icon o.icon %}</div>
+    <h2 style="font-size:26px;margin-top:22px"><a href="{{ o.get_absolute_url }}" style="text-decoration:none">{{ o.title }}</a></h2>
+    <p style="font-size:17px">{{ o.summary }}</p>
+    <div class="detail" style="grid-template-columns:1fr 1fr"><div><b>Who can apply</b>{{ o.who }}</div><div><b>What you get</b>{{ o.benefits }}</div></div>
+    <div class="cta-row" style="margin-top:26px"><a class="btn btn-y btn-s" href="{% url 'tien:join' %}?role={{ o.join_role }}&amp;interest={{ o.title|urlencode }}">Apply now<span class="sr-only"> for {{ o.title }}</span> <span class="arrow" aria-hidden="true">&rarr;</span></a></div>
+  </article>
+  {% endfor %}
+</div></section>
+{% endblock %}

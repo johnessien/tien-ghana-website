@@ -1,0 +1,41 @@
+# Render Blueprint: one free Python web service. The database is Neon (free PostgreSQL), so there is no
+# Render database here. Values marked "sync: false" are typed in by you in the Render dashboard when the
+# Blueprint is first applied (they are secrets or depend on your accounts). See HANDOVER.md.
+services:
+  - type: web
+    name: tien-ghana
+    runtime: python
+    plan: free
+    region: frankfurt            # closest Render region to Ghana; create the Neon project in AWS Frankfurt too
+    branch: main
+    buildCommand: ./build.sh
+    startCommand: gunicorn config.wsgi:application --workers 2 --timeout 60 --access-logfile -
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      # --- generated / fixed values
+      - key: SECRET_KEY
+        generateValue: true      # Render creates a long random key on first deploy
+      - key: PYTHON_VERSION
+        value: 3.13.4
+      - key: DJANGO_DEBUG
+        value: "0"
+      - key: ALLOWED_HOSTS
+        value: .onrender.com,tienghana.org,www.tienghana.org
+      - key: CSRF_TRUSTED_ORIGINS
+        value: https://*.onrender.com,https://tienghana.org,https://www.tienghana.org
+      - key: ADMIN_PATH
+        value: secretariat-admin/
+      # --- you provide these in the dashboard
+      - key: DATABASE_URL        # Neon connection string (postgresql://...?sslmode=require)
+        sync: false
+      - key: DJANGO_SUPERUSER_USERNAME
+        sync: false
+      - key: DJANGO_SUPERUSER_EMAIL
+        sync: false
+      - key: DJANGO_SUPERUSER_PASSWORD
+        sync: false
+      - key: PAYSTACK_SECRET_KEY  # leave empty until ready: the donate page then says "Online giving opens soon"
+        sync: false
+      - key: PAYSTACK_PUBLIC_KEY
+        sync: false

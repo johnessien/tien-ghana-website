@@ -1,0 +1,87 @@
+{% extends "base.html" %}{% load tien humanize %}
+{% block chrome %}
+<nav id="rail" aria-label="Story chapters"></nav>
+<div class="scrollhint" id="scrollhint" aria-hidden="true"><i></i>Scroll to explore</div>
+{% endblock %}
+{% block content %}
+<section class="chapter" id="c0" data-title="Welcome">
+  <div class="sticky"><div class="wrap"><div class="panel">
+    <div class="kicker"><i></i>Tertiary Innovation and Excellence Network, Ghana</div>
+    <h1 class="split">Ghana's student innovators, <span class="y">connected</span>.</h1>
+    <p class="lead">We connect students across universities, technical universities and colleges to develop ideas, drive innovation and contribute to national development.</p>
+    <div class="cta-row"><a class="btn btn-y" href="{% url 'tien:join' %}">Join the Network <span class="arrow" aria-hidden="true">&rarr;</span></a><a class="btn btn-o" href="{% url 'tien:partners' %}">Partner With Us</a></div>
+  </div></div></div>
+</section>
+<section class="chapter" id="c1" data-title="The pressure">
+  <div class="sticky"><div class="wrap"><div class="panel glass">
+    <div class="eyebrow">The pressure</div>
+    <div class="bignum count" data-to="{{ national.enrolment }}">{{ national.enrolment|intcomma }}</div>
+    <p>students are enrolled in Ghana's tertiary institutions, 12% more than the year before. Each dot is a future graduate.</p>
+    <p>Now watch what happens when they look for work. <b class="y" id="dimtxt">Among 15 to 35 year olds, {{ national.youth_unemployment }} are unemployed.</b></p>
+    <div class="src">{{ national.sources }}</div>
+  </div></div></div>
+</section>
+<section class="chapter right" id="c2" data-title="The trap">
+  <div class="sticky"><div class="wrap"><div class="panel glass">
+    <div class="eyebrow">The experience trap</div>
+    <h2>Employers want experience. Graduates need a first job.</h2>
+    <p>The loop keeps talented people waiting. About two million young Ghanaians are not in education, employment or training.</p>
+    <p><b style="color:#fff;font-weight:500">TIEN breaks the loop on campus</b>, with real problems, mentors and internships before graduation.</p>
+  </div></div></div>
+</section>
+<section class="chapter" id="c3" data-title="The network">
+  <div class="sticky"><div class="wrap"><div class="panel glass">
+    <div class="eyebrow">Our answer</div>
+    <h2>A chapter on every kind of campus</h2>
+    <div class="wave"><span class="bignum" id="waveN">{{ stats.pilots }}</span><span id="waveL" class="muted">pilot chapters in Year 1, growing to {{ stats.rollout }} by Year 5</span></div>
+    <p>Universities, technical universities, engineering and mining schools, health, agriculture and colleges of education, from Navrongo to Takoradi. Hover a campus to meet it.</p>
+    <div class="cta-row"><a class="btn btn-o btn-s" href="{% url 'tien:network' %}">Explore the network <span class="arrow" aria-hidden="true">&rarr;</span></a></div>
+  </div></div></div>
+</section>
+<section class="chapter right" id="c4" data-title="The journey">
+  <div class="sticky"><div class="wrap"><div class="panel glass">
+    <div class="eyebrow">The journey</div>
+    <h2>From first meeting to first real role</h2>
+    <p>Join a chapter. Build your mindset in a bootcamp. Solve a real problem set by an employer. Pitch it at a demo day or a national challenge.</p>
+    <p>Most students go on to internships, the best ideas become startups, and graduates return as mentors.</p>
+  </div></div></div>
+</section>
+<section class="chapter" id="c5" data-title="The proof">
+  <div class="sticky"><div class="wrap"><div class="panel glass">
+    <div class="eyebrow">Proven in Ghana</div>
+    <h2>Every part of the model already works</h2>
+    <p><b class="y">7,000+</b> aspiring entrepreneurs trained by the Kosmos Innovation Center, whose student ventures create 8 to 10 jobs each.</p>
+    <p><b class="y">93%</b> of Ashesi University graduates placed in work, study or their own business within six months.</p>
+    <p><b class="y">25+ years</b> of national student enterprise competitions run by Enactus Ghana.</p>
+    <div class="src">TIEN brings these proven parts to the campuses most programmes miss.</div>
+  </div></div></div>
+</section>
+<section class="chapter right" id="c6" data-title="Sustainability">
+  <div class="sticky"><div class="wrap"><div class="panel glass">
+    <div class="eyebrow">Built to last</div>
+    <h2>A network that pays its own way</h2>
+    <div class="gaugetxt"><span class="bignum y" id="gaugeN">65%</span><span class="muted" id="gaugeL">of costs earned by TIEN by Year 5</span></div>
+    <p>Sponsorship, Tertiary Times and paid training cover 65% of costs by Year 5. New lines, such as talent pipelines for mining and energy companies, could take that close to 100%.</p>
+  </div></div></div>
+</section>
+<section class="chapter center" id="c7" data-title="Join us">
+  <div class="sticky"><div class="wrap"><div class="panel glass">
+    <div class="eyebrow">Your move</div>
+    <h2>Be part of a national community shaping Ghana's future</h2>
+    <p>Students, institutions, mentors and partners each have a place here.</p>
+    <div class="cta-row" style="justify-content:center"><a class="btn btn-y" href="{% url 'tien:join' %}">Join the Network <span class="arrow" aria-hidden="true">&rarr;</span></a><a class="btn btn-o" href="{% url 'tien:donate' %}">Support TIEN</a></div>
+  </div></div></div>
+</section>
+<section class="block">
+  <div class="wrap">
+    <div class="eyebrow reveal">Explore</div>
+    <h2 class="reveal">Find your way in</h2>
+    <div class="grid g4" style="margin-top:46px">
+      <a class="glass card reveal" href="{% url 'tien:programs' %}"><div class="ico">{% icon "bulb" %}</div><h3>Programs</h3><p>Challenges, fellowship, forums and showcases</p><span class="go">Explore <span class="arrow" aria-hidden="true">&rarr;</span></span></a>
+      <a class="glass card reveal" href="{% url 'tien:opportunities' %}"><div class="ico">{% icon "brief" %}</div><h3>Opportunities</h3><p>Ambassadors, mentors, grants and internships</p><span class="go">Explore <span class="arrow" aria-hidden="true">&rarr;</span></span></a>
+      <a class="glass card reveal" href="{% url 'tien:network' %}"><div class="ico">{% icon "hub" %}</div><h3>The network</h3><p>{{ stats.campuses|numword }} campuses, from Navrongo to Takoradi</p><span class="go">Explore <span class="arrow" aria-hidden="true">&rarr;</span></span></a>
+      <a class="glass card reveal" href="{% url 'tien:partners' %}"><div class="ico">{% icon "star" %}</div><h3>Partners</h3><p>Fund results, hire talent, set a challenge</p><span class="go">Explore <span class="arrow" aria-hidden="true">&rarr;</span></span></a>
+    </div>
+  </div>
+</section>
+{% endblock %}
