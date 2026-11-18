@@ -23,6 +23,7 @@ python manage.py paystack_smoke --verify TIEN-SMOKE-xxxx
 | Database | `DATABASE_URL` via dj-database-url, `sslmode=require`; Neon's pooled endpoint auto-disables server-side cursors |
 | Static files | whitenoise, compressed + hashed (`collectstatic` in `build.sh`) |
 | Admin account | `python manage.py ensure_superuser` reads `DJANGO_SUPERUSER_*`, creates it once, never overwrites |
+| Admin roles | Superusers = full control. Staff in the **Submissions reviewers** group (created/topped up on every `migrate`, `tien/roles.py`) read submissions and update only handled/approved/status; no delete, no CSV, no payments/content/users |
 | Health check | `/healthz` (answers before host check/HTTPS redirect; 503 if the database is down) |
 | Security | `DEBUG` off by default; `SECRET_KEY` required; HTTPS redirect, HSTS (1 year, preload), secure cookies |
 | Paystack off | Empty `PAYSTACK_SECRET_KEY` makes `/donate/` show "Online giving opens soon" with a contact form |

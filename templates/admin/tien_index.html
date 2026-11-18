@@ -1,0 +1,35 @@
+{% extends "admin/index.html" %}
+{% comment %}Dashboard: a submissions inbox above Django's usual app list.{% endcomment %}
+
+{% block content %}
+{% if inbox %}
+<div class="module" id="submissions-inbox" style="margin-bottom: 30px;">
+  <table style="width: 100%;">
+    <caption>Submissions from the website</caption>
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+        <th scope="col" style="text-align: right;">New this week</th>
+        <th scope="col" style="text-align: right;">To deal with</th>
+        <th scope="col" style="text-align: right;">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in inbox %}
+      <tr>
+        <th scope="row"><a href="{{ row.url }}">{{ row.name }}</a></th>
+        <td style="text-align: right;">{% if row.new %}<strong>{{ row.new }}</strong>{% else %}0{% endif %}</td>
+        <td style="text-align: right;">
+          {% if row.todo is None %}<span style="color: var(--body-quiet-color);">n/a</span>
+          {% elif row.todo %}<a href="{{ row.todo_url }}"><strong>{{ row.todo }}</strong> {{ row.todo_label }}</a>
+          {% else %}0{% endif %}
+        </td>
+        <td style="text-align: right;">{{ row.total }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+{{ block.super }}
+{% endblock %}
