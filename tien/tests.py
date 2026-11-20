@@ -306,3 +306,73 @@ class DeployTest(TestCase):
         with mock.patch.dict("os.environ", {"DJANGO_SUPERUSER_USERNAME": "a", "DJANGO_SUPERUSER_PASSWORD": "12345678"}):
             with self.assertRaises(CommandError):
                 call_command("ensure_superuser", stdout=StringIO())
+
+
+class AdminAccessTest(TestCase):
+    """The admin as the secretariat uses it: full-control accounts, read-only reviewers, the inbox and CSV download."""
+
+    def setUp(self):
+        from django.contrib.auth import get_user_model
+        from django.contrib.auth.models import Group
+        from .roles import REVIEWER_GROUP
+        User = get_user_model()
+        self.boss = User.objects.create_superuser("boss", "boss@example.com", "Kente-Loom-2026!")
+        self.reviewer = User.objects.create_user("ama", "ama@example.com", "Kente-Loom-2026!", is_staff=True)
+        self.reviewer.groups.add(Group.objects.get(name=REVIEWER_GROUP))
+        self.msg = models.ContactMessage.objects.create(name="Kofi", email="k@example.com", message="=HYPERLINK(1)",
+                                                        consent_given=True)
+        models.Subscriber.objects.create(email="s@example.com", consent_given=True)
+
+    def url(self, name, *args):
+        from django.urls import reverse
+        return reverse(f"admin:{name}", args=args)
+
+    def test_reviewer_group_created_by_migrate_with_view_and_follow_up_rights_only(self):
+        from django.contrib.auth.models import Group
+        from .roles import REVIEWER_GROUP
+        codes = set(Group.objects.get(name=REVIEWER_GROUP).permissions.values_list("codename", flat=True))
+        for m in ("studentregistration", "institutionregistration", "application", "contactmessage",
+                  "partnerinquiry", "subscriber", "rsvp"):
+            self.assertIn(f"view_{m}", codes)
+        self.assertIn("change_contactmessage", codes)
+        self.assertFalse({c for c in codes if c.startswith(("delete_", "add_"))})
+        self.assertNotIn("view_payment", codes)
+        self.assertNotIn("change_user", codes)
+
+    def test_dashboard_inbox_counts(self):
+        self.client.force_login(self.boss)
+        r = self.client.get(self.url("index"))
+        self.assertContains(r, "Submissions from the website")
+        self.assertContains(r, "1</strong> not handled")
+        self.assertContains(r, "handled__exact=0")
+
+    def test_reviewer_reads_and_marks_handled_but_cannot_edit_delete_or_download(self):
+        self.client.force_login(self.reviewer)
+        self.assertContains(self.client.get(self.url("index")), "Contact messages")
+        self.assertEqual(self.client.get(self.url("tien_contactmessage_changelist")).status_code, 200)
+        self.assertEqual(self.client.get(self.url("tien_payment_changelist")).status_code, 403)
+        self.assertEqual(self.client.get(self.url("auth_user_changelist")).status_code, 403)
+        change = self.url("tien_contactmessage_change", self.msg.pk)
+        self.client.post(change, {"handled": "on", "name": "Changed", "email": "x@example.com", "message": "x"})
+        self.msg.refresh_from_db()
+        self.assertTrue(self.msg.handled)
+        self.assertEqual((self.msg.name, self.msg.email), ("Kofi", "k@example.com"))
+        self.assertEqual(self.client.get(self.url("tien_contactmessage_delete", self.msg.pk)).status_code, 403)
+        r = self.client.get(self.url("tien_contactmessage_changelist"))
+        self.assertNotContains(r, "export_csv")
+
+    def test_superuser_downloads_csv_safely(self):
+        self.client.force_login(self.boss)
+        r = self.client.post(self.url("tien_contactmessage_changelist"),
+                             {"action": "export_csv", "_selected_action": [self.msg.pk]})
+        self.assertEqual(r["Content-Type"], "text/csv; charset=utf-8")
+        body = r.content.decode("utf-8-sig")
+        self.assertIn("Kofi,k@example.com", body)
+        self.assertIn("'=HYPERLINK(1)", body)  # spreadsheet formulas are neutralised
+
+    def test_submissions_cannot_be_added_from_admin(self):
+        self.client.force_login(self.boss)
+        self.assertEqual(self.client.get(self.url("tien_contactmessage_add")).status_code, 403)
+        for name in ("studentregistration", "institutionregistration", "application", "contactmessage",
+                     "partnerinquiry", "subscriber", "rsvp"):
+            self.assertEqual(self.client.get(self.url(f"tien_{name}_changelist") + "?q=a").status_code, 200, name)

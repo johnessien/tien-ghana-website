@@ -92,11 +92,34 @@ the Neon database.
 2. Create the first account: in Render, then **Environment**, fill in `DJANGO_SUPERUSER_USERNAME`,
    `DJANGO_SUPERUSER_EMAIL` and `DJANGO_SUPERUSER_PASSWORD`, save, then **Manual Deploy**, then **Deploy latest commit**.
    The build creates the account once.
-3. Log in at **/secretariat-admin/** and add the second person under **Users** (tick *Staff status*; tick
-   *Superuser status* only for people who need full control).
+3. Log in at **/secretariat-admin/** and add the other people under **Users**, then **Add user**:
+   - **Full control** (you and the IT lead only): tick *Staff status* and *Superuser status*.
+   - **Reviewer** (anyone else who only needs to read submissions): tick *Staff status*, and under *Groups* choose
+     **Submissions reviewers**. Do not tick *Superuser status* and do not add individual permissions.
 4. Afterwards you may clear the three `DJANGO_SUPERUSER_*` values in Render; the account stays.
-5. Review the submissions collected while admin access was on hold (Student registrations, Applications,
-   Contact messages, Partner inquiries, Subscribers) and reply to anyone waiting.
+5. Review the submissions collected while admin access was on hold and reply to anyone waiting.
+
+### Using the admin day to day
+
+- **The dashboard** (the page you see after logging in) starts with **Submissions from the website**: for each
+  type, how many arrived this week, how many still need dealing with, and the total. Click a number to open that list.
+- **Every submission list** is newest first, has a search box (name, email, phone), filters on the right and a
+  date bar at the top to narrow to a month or day.
+- **Marking things done:** tick **Handled** on contact messages, **Approved** on institution registrations, or set
+  an application's **Status**, straight from the list, then click **Save** at the bottom.
+- **Download as CSV:** full-control accounts can tick entries (or the box at the top to select all), choose
+  **Download selected as CSV (spreadsheet)** from the *Action* menu and click **Go**. The file opens in Excel or
+  Google Sheets. It contains personal data: store it privately and delete it when you are done.
+
+| What a person can do | Full control | Reviewer |
+|---|---|---|
+| Read registrations, applications, messages, partner enquiries, subscribers, RSVPs | Yes | Yes |
+| Mark handled / approved / change application status | Yes | Yes |
+| Edit what someone submitted, or delete it | Yes | No |
+| Download as CSV | Yes | No |
+| See payments, edit site content (campuses, programs, news, people), manage users | Yes | No |
+
+Submissions cannot be added from the admin; they only come in through the website's forms.
 
 ### Step 4: Use the tienghana.org domain (optional)
 

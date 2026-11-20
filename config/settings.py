@@ -17,6 +17,7 @@ def _load_env(path):
             line = line.strip()
             if line and not line.startswith("#") and "=" in line:
                 k, v = line.split("=", 1)
+                v = v.split(" #", 1)[0].split("\t#", 1)[0]  # allow trailing comments, as in .env.example
                 os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
 
 
